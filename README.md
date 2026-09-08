@@ -1,10 +1,50 @@
-# The HootLab Media — Website
+<h1 align="center">The HootLab Media</h1>
 
-Marketing website for **The HootLab Media**, a creative marketing agency (reels,
-social, brand strategy, influencer & performance marketing).
+<p align="center">
+  Marketing website for <strong>The HootLab Media</strong> — a creative marketing agency
+  (reels, social, brand strategy, influencer &amp; performance marketing).
+</p>
 
-Built as a **static site** — no server to run or maintain. It builds to plain
-HTML/CSS/JS and is uploaded to shared hosting (Hostinger).
+<p align="center">
+  <a href="https://thehootlabmedia.com"><strong>🌐 Live site → thehootlabmedia.com</strong></a>
+</p>
+
+<p align="center">
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs">
+  <img alt="React" src="https://img.shields.io/badge/React-19-149ECA?logo=react">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript">
+  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind-3.4-38BDF8?logo=tailwindcss">
+  <img alt="Framer Motion" src="https://img.shields.io/badge/Framer_Motion-11-EF4A8B">
+</p>
+
+---
+
+## Overview
+
+A production website for a real client, built as a **static site** — no server to run
+or maintain. It compiles to plain HTML/CSS/JS and deploys to shared hosting (Hostinger).
+
+### Highlights
+
+- **Interactive brand mark** — a custom SVG owl whose pupils follow the cursor and touch,
+  animated with `requestAnimationFrame` and disabled under `prefers-reduced-motion`.
+- **Motion-driven UI** — Framer Motion reveal/stagger animations, light/dark theming,
+  and a fully responsive layout.
+- **Serverless lead capture** — contact form via Web3Forms; onboarding forms fan out to a
+  Google Sheet, branded email, and WhatsApp through a Google Apps Script relay.
+- **Performance-tuned** — WebP images, portfolio video compressed ~95% (124 MB → ~5.5 MB),
+  SEO metadata, sitemap, robots, and Open Graph image, all statically generated.
+
+---
+
+## Screenshots
+
+> Add screenshots to `docs/screenshots/` and update the paths below.
+
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="Home page" width="80%"><br><br>
+  <img src="docs/screenshots/services.png" alt="Services section" width="80%">
+</p>
 
 ---
 
