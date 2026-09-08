@@ -1,0 +1,277 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #082e6d;
+  --orange: #f5a21a;
+  /* theme surfaces as space-separated RGB (consumed via rgb(var(--x)/<alpha>)) */
+  --soft: 247 247 245;
+  --panel: 255 255 255;
+  --line: 233 233 231;
+  --fg: 8 46 109;
+}
+
+.dark {
+  --soft: 9 14 25;
+  --panel: 18 26 43;
+  --line: 34 44 66;
+  --fg: 226 232 241;
+}
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-soft font-sans text-fg antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Headings use Sora; subheadings (h3/h4) fall through to Inter 600. */
+  h1, h2 {
+    @apply font-display;
+  }
+
+  ::selection {
+    background: rgba(245, 162, 26, 0.25);
+    color: #082e6d;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #ececeb;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cfd3da;
+    border-radius: 99px;
+    border: 2px solid #ececeb;
+  }
+}
+
+@layer components {
+  .container-px {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12 xl:max-w-[1360px] xl:px-16;
+  }
+
+  /* White soft-UI card */
+  .card {
+    @apply rounded-2xl border border-line bg-panel shadow-card;
+  }
+
+  /* Cursor-following spotlight glow (used by <SpotlightCard>) */
+  .spotlight {
+    position: relative;
+  }
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      320px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(245, 162, 26, 0.24),
+      transparent 62%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+  .spotlight > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Uppercase brand marker */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-orange;
+  }
+
+  /* Primary button — tactile press, refined depth */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3 text-sm font-semibold text-white shadow-glow transition duration-200 ease-premium hover:bg-orange-600 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-8px_rgba(245,162,26,0.55)] active:translate-y-0 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/50 focus-visible:ring-offset-2 focus-visible:ring-offset-soft;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-line bg-panel px-6 py-3 text-sm font-semibold text-fg shadow-soft transition duration-200 ease-premium hover:border-orange/40 hover:-translate-y-0.5 hover:shadow-card active:translate-y-0 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange/30;
+  }
+}
+
+/* Smooth cross-fade fallback while switching light/dark (browsers without View Transitions) */
+.theme-transition,
+.theme-transition * {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    fill 0.35s ease !important;
+}
+
+/* View Transitions — default is a soft cross-fade for page navigation */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+  animation-duration: 0.42s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(root) {
+  animation-name: vt-fade-out;
+}
+::view-transition-new(root) {
+  animation-name: vt-fade-in;
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
+}
+
+/* Theme switch — the new theme spills out from the toggle like ink */
+html.vt-theme::view-transition-old(root) {
+  animation: none;
+  z-index: 0;
+}
+html.vt-theme::view-transition-new(root) {
+  z-index: 1;
+  animation: vt-ink 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes vt-ink {
+  from {
+    clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 160%) at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* Footer flowing light / smoke — brand orange + blue, works light & dark */
+.foot-streak {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.foot-streak-1 {
+  top: 16%;
+  height: 2px;
+  width: 55%;
+  filter: blur(5px);
+  opacity: 0.62;
+  background: linear-gradient(90deg, transparent, #f5a21a, transparent);
+  animation: footA 10s linear infinite;
+}
+.foot-streak-2 {
+  top: 42%;
+  height: 130px;
+  width: 48%;
+  filter: blur(55px);
+  opacity: 0.4;
+  background: radial-gradient(closest-side, #2f5bd0, transparent);
+  animation: footB 16s linear infinite;
+}
+.foot-streak-3 {
+  top: 60%;
+  height: 3px;
+  width: 60%;
+  filter: blur(6px);
+  opacity: 0.6;
+  background: linear-gradient(90deg, transparent, #3f63e0, transparent);
+  animation: footA 13s linear infinite;
+  animation-delay: -7s;
+}
+.foot-streak-4 {
+  top: 78%;
+  height: 110px;
+  width: 44%;
+  filter: blur(48px);
+  opacity: 0.32;
+  background: radial-gradient(closest-side, #f5a21a, transparent);
+  animation: footB 19s linear infinite;
+  animation-delay: -11s;
+}
+@keyframes footA {
+  from { transform: translateX(-70%) rotate(-5deg); }
+  to { transform: translateX(180%) rotate(-5deg); }
+}
+@keyframes footB {
+  from { transform: translateX(170%); }
+  to { transform: translateX(-80%); }
+}
+.dark .foot-streak-1,
+.dark .foot-streak-3 { opacity: 0.8; }
+.dark .foot-streak-2 { opacity: 0.58; }
+.dark .foot-streak-4 { opacity: 0.42; }
+
+.dark ::-webkit-scrollbar-track { background: #0d1424; }
+.dark ::-webkit-scrollbar-thumb {
+  background: #2a3a5c;
+  border: 2px solid #0d1424;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Ambient background (rendered by <AmbientBackground>) ───────────────── */
+.amb-glow { position: absolute; border-radius: 9999px; filter: blur(140px); will-change: transform; }
+.amb-a1 { width: 42rem; height: 42rem; top: -15rem; right: -10rem; background: radial-gradient(circle, rgba(245,162,26,0.16), transparent 62%); animation: amb-1 26s ease-in-out infinite alternate; }
+.amb-a2 { width: 40rem; height: 40rem; bottom: -16rem; left: -12rem; background: radial-gradient(circle, rgba(8,46,109,0.12), transparent 64%); animation: amb-2 32s ease-in-out infinite alternate; }
+.amb-a3 { width: 34rem; height: 34rem; top: 30%; left: 40%; background: radial-gradient(circle, rgba(245,162,26,0.07), transparent 60%); animation: amb-3 38s ease-in-out infinite alternate; }
+@keyframes amb-1 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-4rem,3rem,0) scale(1.08); } }
+@keyframes amb-2 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(4rem,-3rem,0) scale(1.06); } }
+@keyframes amb-3 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(3rem,4rem,0) scale(0.94); } }
+
+.amb-cursor { position: absolute; left: 0; top: 0; width: 780px; height: 780px; margin-left: -390px; margin-top: -390px; border-radius: 9999px; background: radial-gradient(circle, rgba(245,162,26,0.22), rgba(245,162,26,0.08) 42%, transparent 62%); will-change: transform; }
+
+.amb-grain { position: absolute; inset: 0; opacity: 0.03; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* Phone: lighter blur, no glow animation, drop the faint center glow + grain
+   → much smoother scrolling and lower GPU/memory use on mobile. */
+@media (max-width: 768px) {
+  .amb-glow { filter: blur(60px); animation: none !important; will-change: auto; }
+  .amb-a3, .amb-grain { display: none; }
+}
