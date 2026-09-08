@@ -37,17 +37,6 @@ or maintain. It compiles to plain HTML/CSS/JS and deploys to shared hosting (Hos
 
 ---
 
-## Screenshots
-
-> Add screenshots to `docs/screenshots/` and update the paths below.
-
-<p align="center">
-  <img src="docs/screenshots/home.png" alt="Home page" width="80%"><br><br>
-  <img src="docs/screenshots/services.png" alt="Services section" width="80%">
-</p>
-
----
-
 ## Stack
 
 | Concern | Choice |
