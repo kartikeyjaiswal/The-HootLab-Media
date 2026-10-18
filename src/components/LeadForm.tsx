@@ -80,11 +80,26 @@ export function LeadForm({ variant = "contact" }: { variant?: Variant }) {
 
             <div className="grid gap-5 sm:grid-cols-2">
               <label className="space-y-2">
+                <span className="block text-xs font-medium text-fg/70">Phone</span>
+                <input
+                  name="phone"
+                  type="tel"
+                  required
+                  placeholder="+91 …"
+                  pattern="[0-9+\-\s()]{7,}"
+                  title="Please enter a valid phone number"
+                  className={field}
+                />
+              </label>
+              <label className="space-y-2">
                 <span className="block text-xs font-medium text-fg/70">
                   Company / Brand
                 </span>
                 <input name="company" placeholder="Optional" className={field} />
               </label>
+            </div>
+
+            <div className={`grid gap-5 ${isProject ? "sm:grid-cols-2" : ""}`}>
               <label className="space-y-2">
                 <span className="block text-xs font-medium text-fg/70">
                   {isProject ? "Service needed" : "Inquiry type"}
@@ -100,23 +115,23 @@ export function LeadForm({ variant = "contact" }: { variant?: Variant }) {
                   ))}
                 </select>
               </label>
-            </div>
 
-            {isProject && (
-              <label className="space-y-2">
-                <span className="block text-xs font-medium text-fg/70">Budget range</span>
-                <select name="budget" className={`${field} cursor-pointer`} defaultValue="">
-                  <option value="" disabled>
-                    Select…
-                  </option>
-                  {budgets.map((b) => (
-                    <option key={b} value={b}>
-                      {b}
+              {isProject && (
+                <label className="space-y-2">
+                  <span className="block text-xs font-medium text-fg/70">Budget range</span>
+                  <select name="budget" className={`${field} cursor-pointer`} defaultValue="">
+                    <option value="" disabled>
+                      Select…
                     </option>
-                  ))}
-                </select>
-              </label>
-            )}
+                    {budgets.map((b) => (
+                      <option key={b} value={b}>
+                        {b}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+            </div>
 
             <label className="space-y-2">
               <span className="block text-xs font-medium text-fg/70">Message</span>
