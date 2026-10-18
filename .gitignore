@@ -14,3 +14,6 @@ npm-debug.log*
 *.zip
 /.backups/
 /docs/*.local.md
+
+# personal / local-only notes (not for the public repo)
+/INTERVIEW-PREP.md
